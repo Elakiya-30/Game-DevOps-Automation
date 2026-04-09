@@ -1,0 +1,38 @@
+- name: Configure Web Server (Ubuntu)
+  hosts: web
+  become: yes
+
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install nginx and git
+      apt:
+        name:
+          - nginx
+          - git
+        state: present
+
+    - name: Remove default html
+      file:
+        path: /var/www/html
+        state: absent
+
+    - name: Create web directory
+      file:
+        path: /var/www/html
+        state: directory
+
+    - name: Deploy application
+      git:
+        repo: https://github.com/Elakiya-30/Game-DevOps-Automation.git
+        dest: /var/www/html
+        force: yes
+
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
