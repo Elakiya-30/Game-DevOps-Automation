@@ -37,7 +37,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('terraform') {
+                dir('terraform/backup_setup') {
                     sh 'terraform apply -auto-approve'
                 }
             }
@@ -67,7 +67,7 @@ pipeline {
     post {
         failure {
             echo 'Build Failed! Rolling back...'
-            dir('terraform') {
+            dir('terraform/backup_setup') {
                 sh 'terraform destroy -auto-approve'
             }
         }
