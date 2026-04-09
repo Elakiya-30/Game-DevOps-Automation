@@ -1,0 +1,36 @@
+- name: Install Nginx and Git
+  apt:
+    name:
+      - nginx
+      - git
+    state: present
+    update_cache: yes
+
+- name: Start Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Remove default html
+  file:
+    path: /var/www/html/index.nginx-debian.html
+    state: absent
+
+- name: Clone game repo
+  git:
+    repo: "{{ repo_url }}"
+    dest: /tmp/game
+    version: main
+    force: yes
+
+- name: Copy game files to nginx
+  copy:
+    src: /tmp/game/
+    dest: "{{ deploy_path }}"
+    remote_src: yes
+
+- name: Restart Nginx
+  service:
+    name: nginx
+    state: restarted

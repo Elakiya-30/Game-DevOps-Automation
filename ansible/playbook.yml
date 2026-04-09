@@ -1,0 +1,7 @@
+- name: Configure EC2 and Deploy Game
+  hosts: tag_ansible-server
+  become: yes
+
+  roles:
+    - webserver
+    
