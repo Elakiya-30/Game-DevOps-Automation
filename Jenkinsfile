@@ -15,7 +15,7 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                dir('terraform/backup-setup') {
+                dir('terraform/back-setup') {
                     sh 'terraform init'
                 }
             }
@@ -23,7 +23,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                dir('terraform/backup-setup') {
+                dir('terraform/back-setup') {
                     sh 'terraform plan'
                 }
             }
@@ -37,7 +37,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('terraform/backup-setup') {
+                dir('terraform/back-setup') {
                     sh 'terraform apply -auto-approve'
                 }
             }
@@ -67,7 +67,7 @@ pipeline {
     post {
         failure {
             echo 'Build Failed! Rolling back...'
-            dir('terraform/backup-setup') {
+            dir('terraform/back-setup') {
                 sh 'terraform destroy -auto-approve'
             }
         }
