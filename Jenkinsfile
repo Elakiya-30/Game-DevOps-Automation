@@ -42,6 +42,12 @@ pipeline {
                 }
             }
         }
+        stage('Sleep') {
+          steps {
+              echo 'Waiting for infra...'
+                sleep(time: 3, unit: 'MINUTES')
+         }
+      }
 
         stage('Run Ansible') {
             steps {
